@@ -1,1 +1,102 @@
+<!DOCTYPE html>
+<head>
+    <title>{Title}</title>
+    <style>
+        /*variables yes*/
+        :root {
+            --lightpink: #f58e8c;
+            --pink: #bf1a38;
+            --red: #590201;
+            --lightyellow: #f0deb6;
+            --yellow: #f2cc80;
+        }
+        
+        #avatar {
+            /*alignment*/
+            padding: 0px;
+            margin: 0px;
+            
+            /*colors etc*/
+            border-radius: 100%;
+        }
+        
+        #avatarContainer {
+            /*alignment*/
+            display: block;
+            padding: 20px;
+            width: 128px;
+            float: right;
+            
+            /*colors etc*/
+        }
+        
+        #blogTitle {
+            /*alignment*/
+            
+            /*text*/
+            color: var(--red);
+            font-weight: bold;
+            font-size: 48px;
+            text-decoration: none;
+        }
+        
+        body {
+            /*colors etc*/
+            background-color: var(--yellow);
+        }
+        
+        #description {
+            /*alignment*/
+            
+            /*text*/
+            font-size: 20px;
+        }
+        
+        #header {
+            /*alignment*/
+            
+            /*colors etc*/
+            background-color: var(--lightpink);
+            
+            /*text*/
+            color: var(--red);
+            font-family: "Arial Narrow", sans-serif;
+        }
+        
+        #wordsContainer {
+            /*alignment*/
+            display: block;
+            float: left;
+            margin: 35px 0px 0px 20px;
+            
+            /*colors etc*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div id="wordsContainer">
+            <a id="blogTitle" href="{BlogURL}">{Title}</a>
+            <br><div id="description">{Description}</div>
+        </div>
+        <div id="avatarContainer">
+            <img id="avatar" src="{PortraitURL-128}">
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div class="post"
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
 
