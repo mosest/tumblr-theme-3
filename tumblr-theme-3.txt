@@ -46,6 +46,12 @@
             background-color: var(--yellow);
         }
         
+        #content {
+            /*alignment*/
+            padding: 0px;
+            margin: 0px;
+        }
+        
         #description {
             /*alignment*/
             
@@ -70,6 +76,8 @@
             
             /*text*/
             text-align: center;
+            text-decoration: none;
+            color: var(--red);
         }
         
         #linksBar li {
@@ -78,10 +86,23 @@
             display: inline;
         }
         
-        #linksBar li a {
+        .post {
+            /*alignment*/
+            padding: 10px;
+            margin: 10px 20px;
+            width: 500px;
+            
+            /*color etc*/
+            background: var(--lightyellow);
+            
+            /*text*/
+            font-family: "Arial Narrow", sans-serif;
+        }
+        
+        .post a {
             /*text*/
             text-decoration: none;
-            color: var(--red);
+            color: var(--pink);
         }
         
         #wordsContainer {
@@ -91,6 +112,17 @@
             margin: 35px 0px 0px 20px;
             
             /*colors etc*/
+        }    
+        iframe, img, embed, object, video {
+            max-width: 100%;
+        }
+        img {
+            height: auto;
+            width: auto;
+        }
+        post {
+            width: 41.5%;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -107,17 +139,100 @@
         <div style="clear: both;"></div>
         
         <ul id="linksBar">
-            <li id="colorsTab"><a href="">Colors</a></li>
-            <li id="happyTab"><a href="">Happy</a></li>
-            <li id="seriousTab"><a href="">Serious</a></li>
-            <li id="angryTab"><a href="">Angry</a></li>
-            <li id="otherTab"><a href="">Other</a></li>
+            <li id="colorsTab">Colors</li>
+            <li id="happyTab">Happy</li>
+            <li id="seriousTab">Serious</li>
+            <li id="angryTab">Angry</li>
+            <li id="otherTab">Other</li>
         </ul>
     </div>
     
-    <div class="post"
+    <div id="content">
+        {block:Posts}
+            {block:Text}
+            <div class="post">
+                {block:Title}
+                    {Title}
+                {/block:Title}
+                {Body}
+            </div>
+            {/block:Text}
+            
+            {block:Photo}
+            <div class="post">
+                <img src="{PhotoURL-500}">
+                {block:Caption}
+                    {Caption}
+                {/block:Caption}
+            </div>
+            {/block:Photo}
+        {/block:Posts}
+    </div>
+    
+    {block:Pagination}
+        <div class="pagenav">
+            {block:PreviousPage}
+                <a href="{PreviousPage}">Previous</a>
+            {/block:PreviousPage}
+            {block:NextPage}
+                <a href="{NextPage}">Next</a>
+            {/block:NextPage}
+        </div>
+    {/block:Pagination}
+    
+    <script>
+        (function () {var $tumblelog = $('#content');
+            $tumblelog.infinitescroll({
+                navSelector: ".pagenav",
+                nextSelector: ".pagenav a:last-child",
+                itemSelector: ".post",
+            },
+            
+            function (newElements) {
+                var $newElems = $(newElements).css({
+                    opacity: 0
+                });
+                $newElems.imagesLoaded(function () {
+                    $newElems.animate({
+                        opacity: 1
+                    });
+                    $tumblelog.masonry('appended', $newElems);
+                });
+            });
+            
+            $tumblelog.imagesLoaded(function () {
+                $tumblelog.masonry({
+                    columnWidth: function (containerWidth) {
+                        return containerWidth / 100;
+                    }
+                });
+            });
+        })();
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://static.tumblr.com/ubunpdk/TyRnacg4e/jquery.imagesloaded.min.js"></script>
+    <script src="http://static.tumblr.com/ubunpdk/kZ4nacg4t/jquery.masonry.min.js"></script>
+    <script src="http://static.tumblr.com/ubunpdk/QQknacg4k/jquery.infinitescroll.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
