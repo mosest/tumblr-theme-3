@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <title>{Title}</title>
     <style>
         /*variables yes*/
@@ -60,7 +61,7 @@
             
             /*text*/
             color: var(--red);
-            font-family: "Arial Narrow", sans-serif;
+            font-family: "Open Sans Condensed", sans-serif;
         }
         
         #wordsContainer {
