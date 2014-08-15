@@ -64,6 +64,26 @@
             font-family: "Open Sans Condensed", sans-serif;
         }
         
+        #linksBar {
+            /*colors etc*/
+            background: var(--pink);
+            
+            /*text*/
+            text-align: center;
+        }
+        
+        #linksBar li {
+            /*alignment*/
+            margin: 0px 40px;
+            display: inline;
+        }
+        
+        #linksBar li a {
+            /*text*/
+            text-decoration: none;
+            color: var(--red);
+        }
+        
         #wordsContainer {
             /*alignment*/
             display: block;
@@ -85,6 +105,14 @@
             <img id="avatar" src="{PortraitURL-128}">
         </div>
         <div style="clear: both;"></div>
+        
+        <ul id="linksBar">
+            <li id="colorsTab"><a href="">Colors</a></li>
+            <li id="happyTab"><a href="">Happy</a></li>
+            <li id="seriousTab"><a href="">Serious</a></li>
+            <li id="angryTab"><a href="">Angry</a></li>
+            <li id="otherTab"><a href="">Other</a></li>
+        </ul>
     </div>
     
     <div class="post"
