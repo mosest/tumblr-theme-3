@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://static.tumblr.com/ubunpdk/FCXnae784/jquery.masonry.min.js"></script>
+    <script src="http://static.tumblr.com/ubunpdk/Pranae8re/jquery.infinitescroll.min.js"></script>
+
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <title>{Title}</title>
     <style>
@@ -42,6 +46,10 @@
         }
         
         body {
+            /*alignment*/
+            padding: 0;
+            margin: 0;
+            
             /*colors etc*/
             background-color: var(--yellow);
         }
@@ -91,6 +99,7 @@
             padding: 10px;
             margin: 10px 20px;
             width: 500px;
+            float: left;
             
             /*color etc*/
             background: var(--lightyellow);
@@ -105,6 +114,12 @@
             color: var(--pink);
         }
         
+        .imagePost {
+            padding: 0;
+            border-radius: 5px;
+            background: none;
+        }
+        
         #wordsContainer {
             /*alignment*/
             display: block;
@@ -112,17 +127,6 @@
             margin: 35px 0px 0px 20px;
             
             /*colors etc*/
-        }    
-        iframe, img, embed, object, video {
-            max-width: 100%;
-        }
-        img {
-            height: auto;
-            width: auto;
-        }
-        post {
-            width: 41.5%;
-            margin: 0 10px;
         }
     </style>
 </head>
@@ -159,84 +163,37 @@
             {/block:Text}
             
             {block:Photo}
-            <div class="post">
-                <img src="{PhotoURL-500}">
-                {block:Caption}
-                    {Caption}
-                {/block:Caption}
+            <div class="post imagePost">
+                <a href="{Permalink}"><img src="{PhotoURL-500}"></a>
             </div>
             {/block:Photo}
         {/block:Posts}
-    </div>
-    
-    {block:Pagination}
+        
+        {block:Pagination}
         <div class="pagenav">
-            {block:PreviousPage}
-                <a href="{PreviousPage}">Previous</a>
-            {/block:PreviousPage}
-            {block:NextPage}
-                <a href="{NextPage}">Next</a>
-            {/block:NextPage}
+            {block:PreviousPage}<a href="{PreviousPage}">Previous</a>{/block:PreviousPage}
+            {block:NextPage}<a class="next" href="{NextPage}">Next</a>{/block:NextPage}
         </div>
-    {/block:Pagination}
-    
-    <script>
-        (function () {var $tumblelog = $('#content');
-            $tumblelog.infinitescroll({
-                navSelector: ".pagenav",
-                nextSelector: ".pagenav a:last-child",
-                itemSelector: ".post",
-            },
-            
-            function (newElements) {
-                var $newElems = $(newElements).css({
-                    opacity: 0
-                });
-                $newElems.imagesLoaded(function () {
-                    $newElems.animate({
-                        opacity: 1
-                    });
-                    $tumblelog.masonry('appended', $newElems);
-                });
-            });
-            
-            $tumblelog.imagesLoaded(function () {
-                $tumblelog.masonry({
-                    columnWidth: function (containerWidth) {
-                        return containerWidth / 100;
-                    }
-                });
-            });
-        })();
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="http://static.tumblr.com/ubunpdk/TyRnacg4e/jquery.imagesloaded.min.js"></script>
-    <script src="http://static.tumblr.com/ubunpdk/kZ4nacg4t/jquery.masonry.min.js"></script>
-    <script src="http://static.tumblr.com/ubunpdk/QQknacg4k/jquery.infinitescroll.min.js"></script>
+        {/block:Pagination}
+    </div>
+     
+     <script>
+         $(function() {
+            $('#content').masonry({
+                itemSelector : '.imagePost',
+                columnWidth : 520
+            }); 
+         });
+         
+         $('#content').infinitescroll({
+             navSelector : '.pagenav',
+             nextSelector : '.next',
+             itemSelector : '.imagePost'
+         });
+     </script>
+        
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
