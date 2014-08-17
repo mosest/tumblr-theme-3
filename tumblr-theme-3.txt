@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script src="http://static.tumblr.com/ubunpdk/FCXnae784/jquery.masonry.min.js"></script>
     <script src="http://static.tumblr.com/ubunpdk/Pranae8re/jquery.infinitescroll.min.js"></script>
 
@@ -35,6 +35,14 @@
             /*colors etc*/
         }
         
+        blockquote {
+            /*alignment*/
+            padding-left: 20px;
+            
+            /*colors etc*/
+            border-left: 2px solid var(--yellow);
+        }
+        
         #blogTitle {
             /*alignment*/
             
@@ -54,26 +62,24 @@
             background-color: var(--yellow);
         }
         
-        #container {
-            /*alignment*/
-            margin: 0 auto;
-        }
-        
         #content {
             /*alignment*/
-            padding: 0px;
-            margin: 0px;
+            padding: 20px;
+            margin: 0;
+            display: block;
+            
+            /*colors etc*/
         }
         
         #description {
-            /*alignment*/
-            
             /*text*/
             font-size: 20px;
         }
         
         #header {
             /*alignment*/
+            margin: 0;
+            display: block;
             
             /*colors etc*/
             background-color: var(--lightpink);
@@ -84,6 +90,9 @@
         }
         
         #linksBar {
+            /*alignment*/
+            margin: 0;
+            
             /*colors etc*/
             background: var(--pink);
             
@@ -99,6 +108,10 @@
             display: inline;
         }
         
+        .pagenav {
+            display: none;
+        }
+        
         .photoPost {
             /*alignment*/
             margin: 10px;
@@ -109,15 +122,20 @@
             border-radius: 5px;
         }
         
+        .post {
+            /*alignment*/
+            margin: 10px;
+            float: left;
+        }
+        
         .textPost {
             /*alignment*/
             padding: 10px;
-            margin: 10px;
-            max-width: 300px;
-            float: left;
+            max-width: 500px;
             
             /*color etc*/
             background: var(--lightyellow);
+            border-radius: 5px;
             
             /*text*/
             font-family: "Arial Narrow", sans-serif;
@@ -127,6 +145,11 @@
             /*text*/
             text-decoration: none;
             color: var(--pink);
+        }
+        
+        .textPost img {
+            /*alignment*/
+            max-width: 100%;
         }
         
         #wordsContainer {
@@ -180,27 +203,37 @@
         
         {block:Pagination}
         <div class="pagenav">
-            {block:PreviousPage}<a class="prev" href="{PreviousPage}">Previous</a>{/block:PreviousPage}
-            {block:NextPage}<a class="next" href="{NextPage}">Next</a>{/block:NextPage}
+            {block:PreviousPage}<a href="{PreviousPage}">Previous</a>{/block:PreviousPage}
+            {block:NextPage}<a id="next" href="{NextPage}">Next</a>{/block:NextPage}
         </div>
         {/block:Pagination}
     </div>
      
      <script>
-        //infinite scrolling whooo
-         $('#content').infinitescroll({
-             navSelector: '.pagenav',
-             nextSelector: '.next',
-             itemSelector: '.post'
-         });
-         
-         //lots of columns of posts
-         $(window).load(function() {
-            $('#content').masonry({
+        var $holder = $('#content');
+        
+        //masonry startup okay
+        $holder.imagesLoaded(function() {
+            $holder.masonry({
                 itemSelector: '.post',
-                columnWidth: 1
-            }); 
-         });
+                columnWidth: 250,
+                gutterWidth: 20
+            });
+        });
+        
+        $holder.infinitescroll({
+                navSelector: '.pagenav',
+                nextSelector: '.pagenav #next',
+                itemSelector: '.post'
+            }, 
+            function( newStuff ) {
+                var $newPosts = $( newStuff ).css({opacity: 0});
+                $newPosts.imagesLoaded(function() {
+                    $newPosts.css({opacity: 1});
+                    $holder.masonry('appended', $newPosts);
+                });
+            }
+        );
      </script>
         
 </body>
