@@ -54,6 +54,11 @@
             background-color: var(--yellow);
         }
         
+        #container {
+            /*alignment*/
+            margin: 0 auto;
+        }
+        
         #content {
             /*alignment*/
             padding: 0px;
@@ -94,11 +99,21 @@
             display: inline;
         }
         
-        .post {
+        .photoPost {
+            /*alignment*/
+            margin: 10px;
+        }
+        
+        .photoPost a img {
+            /*color etc*/
+            border-radius: 5px;
+        }
+        
+        .textPost {
             /*alignment*/
             padding: 10px;
-            margin: 10px 20px;
-            width: 500px;
+            margin: 10px;
+            max-width: 300px;
             float: left;
             
             /*color etc*/
@@ -108,16 +123,10 @@
             font-family: "Arial Narrow", sans-serif;
         }
         
-        .post a {
+        .textPost a {
             /*text*/
             text-decoration: none;
             color: var(--pink);
-        }
-        
-        .imagePost {
-            padding: 0;
-            border-radius: 5px;
-            background: none;
         }
         
         #wordsContainer {
@@ -154,7 +163,7 @@
     <div id="content">
         {block:Posts}
             {block:Text}
-            <div class="post">
+            <div class="post textPost">
                 {block:Title}
                     {Title}
                 {/block:Title}
@@ -163,32 +172,34 @@
             {/block:Text}
             
             {block:Photo}
-            <div class="post imagePost">
-                <a href="{Permalink}"><img src="{PhotoURL-500}"></a>
+            <div class="post photoPost">
+                <a href="{Permalink}"><img src="{PhotoURL-250}"></a>
             </div>
             {/block:Photo}
         {/block:Posts}
         
         {block:Pagination}
         <div class="pagenav">
-            {block:PreviousPage}<a href="{PreviousPage}">Previous</a>{/block:PreviousPage}
+            {block:PreviousPage}<a class="prev" href="{PreviousPage}">Previous</a>{/block:PreviousPage}
             {block:NextPage}<a class="next" href="{NextPage}">Next</a>{/block:NextPage}
         </div>
         {/block:Pagination}
     </div>
      
      <script>
-         $(function() {
-            $('#content').masonry({
-                itemSelector : '.imagePost',
-                columnWidth : 520
-            }); 
+        //infinite scrolling whooo
+         $('#content').infinitescroll({
+             navSelector: '.pagenav',
+             nextSelector: '.next',
+             itemSelector: '.post'
          });
          
-         $('#content').infinitescroll({
-             navSelector : '.pagenav',
-             nextSelector : '.next',
-             itemSelector : '.imagePost'
+         //lots of columns of posts
+         $(window).load(function() {
+            $('#content').masonry({
+                itemSelector: '.post',
+                columnWidth: 1
+            }); 
          });
      </script>
         
