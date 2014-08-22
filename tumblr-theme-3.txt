@@ -55,8 +55,7 @@
         
         body {
             /*alignment*/
-            padding: 0;
-            margin: 0;
+            margin: 0 10px;
             
             /*colors etc*/
             background-color: var(--yellow);
@@ -64,11 +63,9 @@
         
         #content {
             /*alignment*/
-            padding: 20px;
-            margin: 0;
+            padding: 10px 0;
+            margin: 0 auto;
             display: block;
-            
-            /*colors etc*/
         }
         
         #description {
@@ -76,10 +73,18 @@
             font-size: 20px;
         }
         
+        #enlargedImg {
+            border-radius: 100%;
+        }
+        
         #header {
             /*alignment*/
             margin: 0;
-            display: block;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
             
             /*colors etc*/
             background-color: var(--lightpink);
@@ -108,6 +113,13 @@
             display: inline;
         }
         
+        #overlay {
+            /*alignment*/
+            position: fixed;
+            height: 100%;
+            width: 100%;
+        }
+        
         .pagenav {
             display: none;
         }
@@ -117,7 +129,7 @@
             margin: 10px;
         }
         
-        .photoPost a img {
+        .photoPost img {
             /*color etc*/
             border-radius: 5px;
         }
@@ -164,6 +176,7 @@
 </head>
 
 <body>
+    <div id="overlay"></div>
     <div id="header">
         <div id="wordsContainer">
             <a id="blogTitle" href="{BlogURL}">{Title}</a>
@@ -183,7 +196,7 @@
         </ul>
     </div>
     
-    <div id="content">
+    <div id="content" data-masonry-options='{ "isFitWidth": true }'>
         {block:Posts}
             {block:Text}
             <div class="post textPost">
@@ -196,7 +209,7 @@
             
             {block:Photo}
             <div class="post photoPost">
-                <a href="{Permalink}"><img src="{PhotoURL-250}"></a>
+                <img src="{PhotoURL-250}">
             </div>
             {/block:Photo}
         {/block:Posts}
@@ -210,30 +223,44 @@
     </div>
      
      <script>
+        //variables
         var $holder = $('#content');
         
         //masonry startup okay
         $holder.imagesLoaded(function() {
             $holder.masonry({
                 itemSelector: '.post',
-                columnWidth: 250,
-                gutterWidth: 20
+                isFitWidth: true
             });
         });
         
+        //masonry when more posts load haha
         $holder.infinitescroll({
                 navSelector: '.pagenav',
                 nextSelector: '.pagenav #next',
-                itemSelector: '.post'
+                itemSelector: '.post',
+                loadingImg: '',
+                loadingText: '',
+                doneText: 'We hit the bottom!'
             }, 
             function( newStuff ) {
+                //start out with new posts invisible since they're not organized with masonry yet
                 var $newPosts = $( newStuff ).css({opacity: 0});
+                
+                //load the images completely...
                 $newPosts.imagesLoaded(function() {
-                    $newPosts.css({opacity: 1});
+                    //...then make the posts visible!
+                    $newPosts.animate({opacity: 1});
+                    //and put them in masonry format i guess
                     $holder.masonry('appended', $newPosts);
                 });
             }
         );
+        
+        //enlarge pictures when clicked on
+        $('img').on('click', function() {
+            $('#overlay').css('background-color','rgba(0,0,0,0.3)');
+        });
      </script>
         
 </body>
